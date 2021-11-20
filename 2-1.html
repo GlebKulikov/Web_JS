@@ -1,0 +1,20 @@
+<script>
+	let arr = []
+for (let i = 0; i < 15; i++) {
+arr.push(Math.round(((Math.random() - 0.5) * 40 + 10)))
+}
+let positive_elements = []
+
+let count = 0
+for (let i = 0; i < 15; i++) {
+if (arr[i] > 0) {
+count++
+positive_elements.push(arr[i])
+}
+}
+let summa = 0
+for (let i = 0; i < count; i++) {
+summa += positive_elements[i]
+}
+alert(summa / count)
+</script>
