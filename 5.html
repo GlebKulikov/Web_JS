@@ -1,0 +1,14 @@
+<script>
+    let surname = prompt("Введите фамилию")
+    let answer = true
+    for (let i = 0; i <= surname.length; i++) {
+    if (surname[i] != surname[surname.length - i - 1]) {
+    answer = false
+    }
+    }
+    if (answer == true) {
+    alert("палиндром")
+    } else {
+    alert("не палиндромом")
+    }
+</script>
