@@ -1,0 +1,93 @@
+<html>
+<head>
+</head>
+<script>
+function getRandomInt(min, max) {
+	return Math.floor(Math.random()*(max-min+1))+min; 
+    // Данная функция возвращает рандомное число из диапазона мин-макс, включая минимум и максимум, так как мы их тоже учитываем (+1 и округление до нижнего числа)
+}
+
+function getCard(){ 
+	var cards = ["2","3","4","5","6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+	return cards[getRandomInt(0, cards.length-1)]; 
+    // Данная функция возвращает рандомную карту, используя предыдущую функцию
+}
+
+
+function getSum(hand){ 
+	var sum=0; 
+	for (var i=0; i<hand.length; i++) {
+		var card = hand[i]; 
+		if (card != 'A') { 
+			if (card == 'J' || card == "Q" || card == "K"){ 
+				sum = sum + 10	
+			} else { 
+				sum =sum + parseInt(card);
+			}
+		}
+	}
+	for (var i=0; i<hand.length; i++) {
+		var card = hand[i];
+		if (card == "A") {
+			if (sum>10) {
+				sum= sum +1;
+			} else { 
+				sum = sum + 11;
+			}
+		}
+	}
+	return sum 
+}
+// Данная функция работает с картами, которые находятся в руках у игроков (массив). Валет, дама, кароль = +10, карты от двух до 10 = +значение этих карт, туз = +11 если сумма в руках меньше 10, +1 если сумма в руках больше 10
+
+function getStatus() { 
+	return 'Дилер: ' + dealer.join(' ') + '   Игрок: ' + player.join(' ') + '.';
+    // Данная функция показывает нам карты, которые есть у диллера и игрока 
+}
+
+alert("Начинаем игру!")
+var dealer = [getCard()]; // Массив dealer хранит в себе карты дилера. Функция getCard добавляет в массив случайную карту
+var player = [getCard(), getCard()]; // Все как у диллера, только игроку добавляют две карты
+var answer = ''; // Здесь хранится ответ игрока. 1 = +карта, любое другое значение - конец
+
+do { 
+	answer = prompt(getStatus()+"  Хотите еще карту? 1-да, другое значение-нет");
+	if (answer == '1') {
+		player.push(getCard()); 	  
+	}
+	sum = getSum(player);
+	if (sum > 21) {
+		alert ('Перебор, Вы проиграли! ' + getStatus());
+		break;
+	} else if (sum == 21) {
+		alert ('Black Jack у игрока!   ' + getStatus());
+		break;
+	}
+	alert(getStatus());
+} while (answer =='1');
+// Пока игрок отвечает 1 и его сумма очков меньше 21 цикл Do будет работать. В другом случае цикл прервется
+
+if (sum<=21){
+	do {
+		dealer.push(getCard());
+		sumDealer = getSum(dealer);
+		if (sumDealer==21){
+			alert("Black Jack у дилера");
+			break;
+		} 
+	} while (sumDealer<17);
+}
+// Отдельный цикл для диллера. Пока сумма игрока будет меньше либо равна 21, а сумма диллера меньше 17, он будет брать карты
+
+alert('Дилер: ' + dealer.join(' ') + ' Игрок: ' + player.join(' '));
+alert("Текущая сумма карт у игрока: " + getSum(player));
+alert("Текущая сумма карт у дилера: " + getSum(dealer));
+
+if (sum == sumDealer){
+	alert("Ровно");
+}
+if (sum < 21 | sumDealer < 21 | sum>sumDealer){
+	alert("Победа игрока");
+}
+</script>
+</html>
